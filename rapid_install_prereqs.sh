@@ -145,35 +145,35 @@ fi
 cd $INSTALLZ_DIR
 
 if $FORCE_INSTALL_NETCDF ; then 
-    rm -rf netcdf-c-4.7.3
-    rm -rf netcdf-fortran-4.5.2
+    rm -rf netcdf-c-4.8.1
+    rm -rf netcdf-fortran-4.5.4
     rm -rf netcdf-install
 fi
 #Remove old netCDF directories if FORCE_INSTALL_NETCDF
 
-if [ ! -f netcdf-c-4.7.3.tar.gz ] && [ ! -d netcdf-c-4.7.3 ]; then
-    wget -nc "http://www.unidata.ucar.edu/downloads/netcdf/ftp/netcdf-c-4.7.3.tar.gz"
+if [ ! -f netcdf-c-4.8.1.tar.gz ] && [ ! -d netcdf-c-4.8.1 ]; then
+    wget -nc "https://downloads.unidata.ucar.edu/netcdf-c/4.8.1/netcdf-c-4.8.1.tar.gz"
 fi
 #Download netCDF installation file if it does not exist
 
-if [ ! -d netcdf-c-4.7.3 ]; then
-    tar -xzf netcdf-c-4.7.3.tar.gz
+if [ ! -d netcdf-c-4.8.1 ]; then
+    tar -xzf netcdf-c-4.8.1.tar.gz
 fi
 #Extract netCDF installation file if directory does not exist
 
-if [ ! -f netcdf-fortran-4.5.2.tar.gz ] && [ ! -d netcdf-fortran-4.5.2 ]; then
-    wget -nc "http://www.unidata.ucar.edu/downloads/netcdf/ftp/netcdf-fortran-4.5.2.tar.gz"
+if [ ! -f netcdf-fortran-4.5.4.tar.gz ] && [ ! -d netcdf-fortran-4.5.4 ]; then
+    wget -nc "https://downloads.unidata.ucar.edu/netcdf-fortran/4.5.4/netcdf-fortran-4.5.4.tar.gz"
 fi
 #Download netCDF installation file if it does not exist
 
-if [ ! -d netcdf-fortran-4.5.2 ]; then
-    tar -xzf netcdf-fortran-4.5.2.tar.gz
+if [ ! -d netcdf-fortran-4.5.4 ]; then
+    tar -xzf netcdf-fortran-4.5.4.tar.gz
 fi
 #Extract netCDF installation file if directory does not exist
 
 if [ ! -d netcdf-install ]; then
     mkdir -p netcdf-install
-    cd netcdf-c-4.7.3
+    cd netcdf-c-4.8.1
     ./configure CC=gcc                                                         \
                 CPPFLAGS=-I/usr/lib/x86_64-linux-gnu/hdf5/serial/include       \
                 LDFLAGS=-L/usr/lib/x86_64-linux-gnu/hdf5/serial/lib            \
@@ -181,7 +181,7 @@ if [ ! -d netcdf-install ]; then
     make check > check.log
     make install > install.log
     cd ..
-    cd netcdf-fortran-4.5.2
+    cd netcdf-fortran-4.5.4
     ./configure CC=gcc FC=gfortran                                             \
                 LD_LIBRARY_PATH=$INSTALLZ_DIR/netcdf-install/lib:$LD_LIBRARY_PATH \
                 CPPFLAGS=-I$INSTALLZ_DIR/netcdf-install/include                \
