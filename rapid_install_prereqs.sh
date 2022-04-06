@@ -40,10 +40,10 @@ INSTALLZ_DIR=$HOME/installz
 #'-i' option. This location can be updated as wished, but do not move anything 
 #after running this script, or do so at your own risks!
 
-FORCE_INSTALL_NETCDF=false
+FORCE_INSTALL_NETCDF=true
 #Installation of netCDF is not forced by default.
 
-FORCE_INSTALL_PETSC=false
+FORCE_INSTALL_PETSC=true
 #Installation of PETSc is not forced by default.
 
 #-------------------------------------------------------------------------------
@@ -175,8 +175,8 @@ if [ ! -d netcdf-install ]; then
     mkdir -p netcdf-install
     cd netcdf-c-4.8.1
     ./configure CC=gcc                                                         \
-                CPPFLAGS=-I/usr/lib/x86_64-linux-gnu/hdf5/serial/include       \
-                LDFLAGS=-L/usr/lib/x86_64-linux-gnu/hdf5/serial/lib            \
+                CPPFLAGS=-I/home/geowater/local/miniconda3/include       \
+                LDFLAGS=-L/home/geowater/local/miniconda3/lib            \
                 --prefix=$INSTALLZ_DIR/netcdf-install --disable-dap
     make check > check.log
     make install > install.log
@@ -217,22 +217,22 @@ if [ ! -d petsc-3.13.0 ]; then
 fi
 #Extract PETSc installation file if directory does not exist
 
-if [ ! -d petsc-3.13.0/linux-gcc-c ]; then
+#if [ ! -d petsc-3.13.0/linux-gcc-c ]; then
     cd petsc-3.13.0
     if [ "$(expr substr $(uname -s) 1 9)" == "CYGWIN_NT" ]; then
         python2 './configure' 'PETSC_DIR='$PWD 'PETSC_ARCH=linux-gcc-c' '--download-fblaslapack=1' '--download-mpich=1' '--with-cc=gcc' '--with-fc=gfortran' '--with-clanguage=c' '--with-debugging=0' '--with-windows-graphics=0'
         #CYGWIN
     else
-        python2 './configure' 'PETSC_DIR='$PWD 'PETSC_ARCH=linux-gcc-c' '--download-fblaslapack=1' '--download-mpich=1' '--with-cc=gcc' '--with-fc=gfortran' '--with-clanguage=c' '--with-debugging=0'
+        python2 './configure' 'PETSC_DIR='$PWD 'PETSC_ARCH=linux-gcc-c' '--download-fblaslapack=1' '--download-mpich=/home/geowater/Projects/MODEL_CODE/rapid/installz/mpich-3.3.2.tar.gz' '--with-cc=gcc' '--with-fc=gfortran' '--with-clanguage=c' '--with-debugging=0'
         #Linux/Mac
     fi
     make PETSC_DIR=$PWD PETSC_ARCH=linux-gcc-c all
     make PETSC_DIR=$PWD PETSC_ARCH=linux-gcc-c check
-else
-    echo "- Skipped PETSc installation: petsc-3.13.0/linux-gcc-c directory"
-    echo "  already exists."
-    echo "  To force installation, run with -pf or --petsc_force."
-fi
+#else
+#    echo "- Skipped PETSc installation: petsc-3.13.0/linux-gcc-c directory"
+#    echo "  already exists."
+#    echo "  To force installation, run with -pf or --petsc_force."
+#fi
 #Install PETSc if directory does not exist
 
 
